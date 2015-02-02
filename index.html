@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>How adblockers work</title>
+
+		<meta name="description" content="How adblockers work">
+		<meta name="author" content="Sebastian Noack">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = 'reveal.js/css/print/' + (window.location.search.match( /print-pdf/gi ) ? 'pdf.css' : 'paper.css');
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h2>How adblockers work</h2>
+					<p>
+						<span style="display: inline-block; text-align: left;">
+							by <strong>Sebastian Noack</strong><br>
+							<br>
+							Adblock Plus<br>
+							Eyeo GmbH<br>
+							<br>
+							sebastian@adblockplus.org<br>
+							snoack <span style="color: #aaa">on</span> irc.mozilla.org <span style="color: #aaa">or</span> irc.freenode.net
+						<span>
+					</p>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						## General approaches
+
+						* Popup blocking (built into browsers) 
+						* Blocking domains (e.g. /etc/hosts)
+						* Proxy servers
+						  * Request blocking based on URL and headers
+						  * Rewrite HTML to hide elements
+						  * Can't intercept encrypted connections (SSL/TLS) :( <!-- .element style="color:red;" -->
+						* Browser extensions
+						  * Request blocking based on URL and context
+						  * Inject code to hide elements
+					</script>
+				</section>
+
+				<section>
+					<h2>Adblock Plus</h2>
+					<div style="float: left; width: 50%; padding-right 0.7em; box-sizing: border-box;">
+						<h3>Without<br>adblocker</h3>
+						<img src="images/onion-with-ads.png" style="border: none; box-shadow: 0 0 1em black;">
+					</div>
+					<div style="float: left; width: 50%; padding-left: 0.7em; box-sizing: border-box;">
+						<h3>With<br>Adblock Plus</h3>
+						<img src="images/onion-with-abp.png" style="border: none; box-shadow: 0 0 1em black;">
+					</div>
+					<div style="clear: both;"></div>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Browser extensions
+
+						* Piece of code (usually JavaScript) running in the web browser
+						* Extending browser functionality
+						  * Block requests
+						  * Access/Modify page content
+						  * And more
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Filter lists
+
+						* Defines rules specifying what to block
+						* Periodically updated
+						* User configurable
+						* Not limited to blocking ads
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Common filter lists
+
+						* EasyList
+						  * configured by default
+						  * block ads, mostly on English websites
+						* EasyList Germany/Italy/China/etc.
+						  * used in combination with EasyList
+						  * provides additional filters, blocking ads on non-English websites
+						* EasyPrivacy
+						  * used in combination with EasyList
+						  * blocks additional tracking
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Request blocking
+
+						* Prevents requests from loading
+						* Also saves bandwith
+						* Simple examples <!-- .element: class="fragment" data-fragment-index="1" -->
+						  * `/ad_banner/`
+						    * blocks `http://example.com/ad_banner/0`
+						* Advanced example <!-- .element: class="fragment" data-fragment-index="2" -->
+						  * `||adserver.com$image,domain=example.com`
+						    * blocks `https://adsever.com/ad_banner`
+							  * if it's embedded with an `<img>` element
+							  * on `example.com`
+						* Example with popups <!-- .element: class="fragment" data-fragment-index="3" -->
+						  * `||example.com$popup`
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Element hiding
+
+						* Hides content with CSS
+						* Used when there is no separte request for the element
+						  * e.g. text ads embedded into the document
+						* Example <!-- .element: class="fragment" data-fragment-index="1" -->
+						  * `example.com##.text-ad`
+							* hides elements matching the CSS selector `.text-ad`
+						    * on `example.com`
+
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## It's open source
+
+						#### Code
+						https://hg.adblockplus.org/ (mercurial)
+						https://github.com/adblockplus/ (git)
+
+						#### Bugs
+						https://issues.adblockplus.org/
+
+						#### IRC
+						\#adblockplus on irc.mozilla.org
+					</script>
+				</section>
+
+
+			</div>
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
