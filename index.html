@@ -151,7 +151,23 @@
 						  * `example.com##.text-ad`
 							* hides elements matching the CSS selector `.text-ad`
 						    * on `example.com`
+					</script>
+				</section>
 
+				<section data-markdown>
+					<script type="text/template">
+						## Exception rules
+
+						* Whitelists content that might be blocked by other filters
+						* Examples <!-- .element: class="fragment" data-fragment-index="1" -->
+						  * `@@||example.com`
+						    * Whitelists all requests to `example.com`
+						  * <!-- .element: class="fragment" data-fragment-index="2" --> `@@||*$domain=example.com`
+						    * Whitelists all requests on `example.com`
+						  * <!-- .element: class="fragment" data-fragment-index="3" --> `@@||example.com$elemehide`
+						    * Disables element hiding on `example.com`
+						  * <!-- .element: class="fragment" data-fragment-index="4" --> `@@||example.com$document`
+						    * Disables ad blocking completly on `example.com`
 					</script>
 				</section>
 
